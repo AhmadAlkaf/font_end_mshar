@@ -157,8 +157,8 @@ export interface Employee {
   number_employee?: string | null;
   educational_level: number | EducationalLevel;
   phone1?: string;
-  type_of_employee: number | TypeOfEmployee;
-  marital_status: number | MaritalStatus;
+  type_of_employee: number | EmploymentTypeChoice | TypeOfEmployee;
+  marital_status: number | MaritalStatusChoice | MaritalStatus;
   email?: string | null;
   basic_salary: number | string;
   secondary_salary: number | string;

@@ -18,6 +18,35 @@ export const EmployeeFormModal: React.FC<EmployeeFormModalProps> = ({
   onSuccess,
   initialData,
 }) => {
+  const normalizeEducationalLevel = (value: Employee["educational_level"] | undefined) => {
+    if (value && typeof value === "object" && "id" in value) return value.id;
+    return value ?? 1;
+  };
+
+  const normalizeTypeOfEmployee = (
+    value: Employee["type_of_employee"] | undefined
+  ): EmploymentTypeChoice => {
+    if (value && typeof value === "object" && "type_of_employee" in value) {
+      return value.type_of_employee;
+    }
+    if (value === undefined || value === null) {
+      return EmploymentTypeChoice.EMPLOYEE;
+    }
+    return String(value) as EmploymentTypeChoice;
+  };
+
+  const normalizeMaritalStatus = (
+    value: Employee["marital_status"] | undefined
+  ): MaritalStatusChoice => {
+    if (value && typeof value === "object" && "marital_status" in value) {
+      return value.marital_status;
+    }
+    if (value === undefined || value === null) {
+      return MaritalStatusChoice.MARRIED;
+    }
+    return String(value) as MaritalStatusChoice;
+  };
+
   const [formData, setFormData] = useState({
     name: initialData?.name || "",
     number_employee: initialData?.number_employee || "",
@@ -25,9 +54,9 @@ export const EmployeeFormModal: React.FC<EmployeeFormModalProps> = ({
     phone1: initialData?.phone1 || "",
     email: initialData?.email || "",
     address: initialData?.address || "",
-    educational_level: initialData?.educational_level || 1,
-    type_of_employee: initialData?.type_of_employee || EmploymentTypeChoice.EMPLOYEE,
-    marital_status: initialData?.marital_status || MaritalStatusChoice.MARRIED,
+    educational_level: normalizeEducationalLevel(initialData?.educational_level),
+    type_of_employee: normalizeTypeOfEmployee(initialData?.type_of_employee),
+    marital_status: normalizeMaritalStatus(initialData?.marital_status),
     basic_salary: initialData?.basic_salary || "",
     secondary_salary: initialData?.secondary_salary || "",
     data_of_birth: initialData?.data_of_birth || "",

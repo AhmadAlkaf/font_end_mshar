@@ -8,6 +8,7 @@ import {
   StatusRequestColors,
   EmploymentTypeChoice,
   EmploymentTypeLabels,
+  TypeOfEmployee,
 } from "@/types/hr";
 
 interface AttendanceBadgeProps {
@@ -80,11 +81,15 @@ export const DeviceStatusBadge: React.FC<DeviceStatusBadgeProps> = ({ isOnline }
 };
 
 interface EmploymentBadgeProps {
-  type: string | number | undefined;
+  type: string | number | TypeOfEmployee | null | undefined;
 }
 
 export const EmploymentBadge: React.FC<EmploymentBadgeProps> = ({ type }) => {
-  const choice = String(type) as EmploymentTypeChoice;
+  const raw =
+    type !== null && typeof type === "object" && "type_of_employee" in type
+      ? type.type_of_employee
+      : type;
+  const choice = String(raw ?? "") as EmploymentTypeChoice;
   const label = EmploymentTypeLabels[choice] || "موظف";
 
   const colorMap: Record<string, string> = {
